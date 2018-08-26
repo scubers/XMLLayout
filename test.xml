@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Layout
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.jrwong.com/layout"
+        xsi:schemaLocation="http://www.jrwong.com/layout ./test.xsd">
+
+    <String name="name" value="good man"/>
+    <Int name="age" value="100"/>
+
+
+    <MyLinearLayout
+            horzGravity="Center"
+            orientation="Vertical">
+
+        <UIScrollView
+                id="scrollView"
+                myHorzMarin="0"
+                weight="1"
+        >
+            <MyLinearLayout
+                    orientation="Vertical"
+                    myHorzMarin="0"
+                    horzGravity="Center"
+                    wrapContentHeight="true"
+                    padding="15"
+                    subviewVSpace="10">
+
+
+
+                <UILabel id="labelA"
+                         text="I am a Label"
+                         wrapContentSize="true"/>
+
+                <UITextField id="textfieldA"
+                             myLeft="0"
+                             myRight="0"
+                             wrapContentHeight="true"
+                             text="i am text field"/>
+
+                <UIButton
+                        id="button"
+                        wrapContentSize="true"/>
+
+                <MyLinearLayout
+                        vertGravity="Center"
+                        myHorzMarin="0"
+                        wrapContentHeight="true"
+                        orientation="Horizontal">
+
+                    <UILabel
+                            wrapContentSize="true"
+                            text="100"/>
+
+                    <UIView weight="2"/>
+
+                    <UILabel
+                            text="300"
+                            wrapContentSize="true"/>
+
+                    <UIView weight="3"/>
+
+                    <UILabel
+                            wrapContentSize="true"
+                            text="200"/>
+
+                </MyLinearLayout>
+
+                <MyFloatLayout
+                        subviewSpace="20"
+                        myHorzMarin="50"
+                        wrapContentHeight="true"
+                        orientation="Vertical">
+
+                    <UILabel
+                            wrapContentSize="true"
+                            text="一般不是我的"/>
+
+                    <UILabel
+                            wrapContentSize="true"
+                            text="一般不是我的"/>
+
+                    <UILabel
+                            wrapContentSize="true"
+                            text="一般不是我的"/>
+                    <UILabel
+                            wrapContentSize="true"
+                            text="一般不是我的"/>
+
+                    <UILabel
+                            wrapContentSize="true"
+                            text="一般不是我的"/>
+
+                    <UILabel
+                            wrapContentSize="true"
+                            text="一般不是我的"/>
+
+
+
+                </MyFloatLayout>
+
+
+
+            </MyLinearLayout>
+
+
+        </UIScrollView>
+
+    </MyLinearLayout>
+
+
+
+
+
+</Layout>

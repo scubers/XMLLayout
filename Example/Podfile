@@ -1,0 +1,11 @@
+use_frameworks!
+
+target 'XMLLayout_Example' do
+  pod 'XMLLayout', :path => '../'
+
+  target 'XMLLayout_Tests' do
+    inherit! :search_paths
+
+    
+  end
+end

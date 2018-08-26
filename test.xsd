@@ -1,0 +1,360 @@
+<?xml version="1.0"?>
+<xs:schema xmlns="http://www.jrwong.com/layout"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           targetNamespace="http://www.jrwong.com/layout">
+
+    <xs:element name="String">
+        <xs:complexType>
+            <xs:attribute name="name" type="xs:string"/>
+            <xs:attribute name="value" type="xs:string"/>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="Int">
+        <xs:complexType>
+            <xs:attribute name="name" type="xs:string"/>
+            <xs:attribute name="value" type="xs:integer"/>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="Double">
+        <xs:complexType>
+            <xs:attribute name="name" type="xs:string"/>
+            <xs:attribute name="value" type="xs:double"/>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="Bool">
+        <xs:complexType>
+            <xs:attribute name="name" type="xs:string"/>
+            <xs:attribute name="value" type="xs:boolean"/>
+        </xs:complexType>
+    </xs:element>
+
+
+    <xs:group name="Variable">
+        <xs:sequence>
+            <xs:element ref="String" maxOccurs="unbounded" minOccurs="0"/>
+            <xs:element ref="Int" maxOccurs="unbounded" minOccurs="0"/>
+            <xs:element ref="Double" maxOccurs="unbounded" minOccurs="0"/>
+            <xs:element ref="Bool" maxOccurs="unbounded" minOccurs="0"/>
+        </xs:sequence>
+    </xs:group>
+
+
+    <!--根部-->
+    <xs:element name="Layout">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:group ref="Variable"/>
+                <xs:group ref="RecursiveGroup"/>
+            </xs:sequence>
+
+        </xs:complexType>
+    </xs:element>
+
+
+    <xs:group name="RecursiveGroup">
+        <xs:sequence>
+            <xs:element ref="UIView" maxOccurs="unbounded" minOccurs="0"/>
+            <xs:element ref="UIButton" maxOccurs="unbounded" minOccurs="0"/>
+            <xs:element ref="UITextField" maxOccurs="unbounded" minOccurs="0"/>
+            <xs:element ref="UILabel" maxOccurs="unbounded" minOccurs="0"/>
+            <xs:element ref="UIScrollView" maxOccurs="unbounded" minOccurs="0"/>
+            <xs:element ref="UIImageView" maxOccurs="unbounded" minOccurs="0"/>
+            <xs:group ref="MyLayoutRecursive"/>
+        </xs:sequence>
+    </xs:group>
+
+    <!--Root-->
+    <xs:complexType name="Root">
+        <xs:complexContent>
+            <xs:extension base="UIView">
+                <xs:attribute name="viewClass" type="xs:string" use="required"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:element name="Root" type="Root"/>
+
+    <!--UIView-->
+    <xs:complexType name="UIView">
+
+        <!--<xs:attribute name="x" type="xs:double"/>-->
+        <!--<xs:attribute name="y" type="xs:double"/>-->
+        <!--<xs:attribute name="width" type="xs:double"/>-->
+        <!--<xs:attribute name="height" type="xs:double"/>-->
+        <!--<xs:attribute name="cornerRadius" type="xs:double"/>-->
+        <!--<xs:attribute name="backgroundColor" type="xs:string"/>-->
+        <xs:attribute name="alpha" type="xs:double"/>
+        <xs:attribute name="hidden" type="xs:boolean"/>
+
+        <xs:attribute name="id" type="xs:string"/>
+        <xs:attribute name="name" type="xs:string"/>
+        <xs:attribute name="tag" type="xs:integer"/>
+
+        <xs:attributeGroup ref="MyLayoutViewSupport"/>
+
+        <xs:group ref="RecursiveGroup"/>
+    </xs:complexType>
+    <xs:element name="UIView" type="UIView"/>
+
+
+    <!--UIControl-->
+    <xs:complexType name="UIControl">
+        <xs:complexContent>
+            <xs:extension base="UIView">
+                <xs:attribute name="touchUpInsideAction" type="xs:string"/>
+                <xs:attribute name="selected" type="xs:boolean"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+
+    <!--UIButton-->
+    <xs:complexType name="UIButton">
+        <xs:complexContent>
+            <xs:extension base="UIControl"/>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:element name="UIButton" type="UIButton"/>
+
+
+
+    <!--UILabel-->
+    <xs:complexType name="UILabel">
+        <xs:complexContent>
+            <xs:extension base="UIView">
+                <xs:attributeGroup ref="TextAppearanceGroup"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:element name="UILabel" type="UILabel"/>
+
+
+    <!--UITextField-->
+    <xs:complexType name="UITextField">
+        <xs:complexContent>
+            <xs:extension base="UIControl">
+                <xs:attributeGroup ref="TextAppearanceGroup"/>
+                <xs:attribute name="placeholder" type="xs:string"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:element name="UITextField" type="UITextField"/>
+
+    <!--UIImageView-->
+    <xs:complexType name="UIImageView">
+        <xs:complexContent>
+            <xs:extension base="UIView">
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:element name="UIImageView" type="UIImageView"/>
+
+     <!--UIScrollView-->
+    <xs:complexType name="UIScrollView">
+        <xs:complexContent>
+            <xs:extension base="UIView">
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:element name="UIScrollView" type="UIScrollView"/>
+
+
+
+
+
+
+
+    <xs:attributeGroup name="TextAppearanceGroup">
+        <xs:attribute name="text" type="xs:string"/>
+        <!--<xs:attribute name="fontSize" type="xs:double"/>-->
+        <!--<xs:attribute name="font" type="xs:string"/>-->
+        <!--<xs:attribute name="textColor" type="xs:string"/>-->
+    </xs:attributeGroup>
+
+
+    <!--MyLayout-->
+
+    <xs:complexType name="MyBaseLayout">
+        <xs:complexContent>
+            <xs:extension base="UIView">
+                <xs:attributeGroup ref="MyBaseLayoutSupport"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="MyLinearLayout">
+        <xs:complexContent>
+            <xs:extension base="MyBaseLayout">
+                <xs:attributeGroup ref="MyLinearLayoutSupport"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:element name="MyLinearLayout" type="MyLinearLayout"/>
+
+     <xs:complexType name="MyFlowLayout">
+        <xs:complexContent>
+            <xs:extension base="MyBaseLayout">
+                <xs:attributeGroup ref="MyFlowLayoutSupport"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:element name="MyFlowLayout" type="MyFlowLayout"/>
+
+     <xs:complexType name="MyFloatLayout">
+        <xs:complexContent>
+            <xs:extension base="MyBaseLayout">
+                <xs:attributeGroup ref="MyFloatLayoutSupport"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:element name="MyFloatLayout" type="MyFloatLayout"/>
+
+
+
+    <xs:group name="MyLayoutRecursive">
+        <xs:sequence>
+            <xs:element ref="MyLinearLayout" maxOccurs="unbounded" minOccurs="0"/>
+            <xs:element ref="MyFloatLayout" maxOccurs="unbounded" minOccurs="0"/>
+            <xs:element ref="MyFlowLayout" maxOccurs="unbounded" minOccurs="0"/>
+        </xs:sequence>
+    </xs:group>
+
+    <!--MyLayout view support-->
+
+
+
+
+
+
+    <xs:attributeGroup name="MyLayoutViewSupport">
+        <xs:attribute name="weight" type="xs:double"/>
+
+        <xs:attribute name="myHorzMarin" type="xs:double"/>
+        <xs:attribute name="myVertMarin" type="xs:double"/>
+
+        <xs:attribute name="myLeft" type="xs:double"/>
+        <xs:attribute name="myRight" type="xs:double"/>
+        <xs:attribute name="myTop" type="xs:double"/>
+        <xs:attribute name="myBottom" type="xs:double"/>
+        <xs:attribute name="myWidth" type="xs:double"/>
+        <xs:attribute name="myHeight" type="xs:double"/>
+        <xs:attribute name="wrapContentSize" type="xs:boolean"/>
+        <xs:attribute name="wrapContentWidth" type="xs:boolean"/>
+        <xs:attribute name="wrapContentHeight" type="xs:boolean"/>
+        <xs:attribute name="myCenterX" type="xs:double"/>
+        <xs:attribute name="myCenterY" type="xs:double"/>
+        <xs:attribute name="useFrame" type="xs:boolean"/>
+        <xs:attribute name="noLayout" type="xs:boolean"/>
+
+        <!--visibility add-->
+        <xs:attribute name="myVisibility">
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:enumeration value="Visible"/>
+                    <xs:enumeration value="Invisible"/>
+                    <xs:enumeration value="Gone"/>
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+
+
+
+        <!-- float layout add-->
+        <xs:attribute name="reverseFloat" type="xs:boolean"/>
+
+    </xs:attributeGroup>
+
+    <!-- MyLayout layout support -->
+
+    <xs:attributeGroup name="MyBaseLayoutSupport">
+
+        <xs:attribute name="padding" type="xs:double"/>
+        <xs:attribute name="topPadding" type="xs:double"/>
+        <xs:attribute name="leftPadding" type="xs:double"/>
+        <xs:attribute name="rightPadding" type="xs:double"/>
+        <xs:attribute name="bottomPadding" type="xs:double"/>
+
+        <xs:attribute name="subviewVSpace" type="xs:double"/>
+        <xs:attribute name="subviewHSpace" type="xs:double"/>
+        <xs:attribute name="subviewSpace" type="xs:double"/>
+
+        <xs:attribute name="reverseLayout" type="xs:boolean"/>
+        
+        <xs:attribute name="adjustScrollViewContentSizeMode">
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:enumeration value="Auto"/>
+                    <xs:enumeration value="No"/>
+                    <xs:enumeration value="Yes"/>
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+
+        <!--gravity add-->
+        <xs:attribute name="horzGravity">
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:enumeration value="Center"/>
+                    <xs:enumeration value="Left"/>
+                    <xs:enumeration value="Right"/>
+                    <xs:enumeration value="Fill"/>
+                    <xs:enumeration value="Between"/>
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+
+        <xs:attribute name="vertGravity">
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:enumeration value="Center"/>
+                    <xs:enumeration value="Top"/>
+                    <xs:enumeration value="Bottom"/>
+                    <xs:enumeration value="Fill"/>
+                    <xs:enumeration value="Between"/>
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+
+        <xs:attribute name="selected" type="xs:boolean"/>
+
+    </xs:attributeGroup>
+
+
+    <!--MyLinearLayoutSupport-->
+    <xs:attributeGroup name="MyLinearLayoutSupport">
+        <xs:attributeGroup ref="MyLayoutOrientationSupport"/>
+    </xs:attributeGroup>
+
+    <!--MyFloatLayoutSupport-->
+    <xs:attributeGroup name="MyFloatLayoutSupport">
+        <xs:attributeGroup ref="MyLayoutOrientationSupport"/>
+    </xs:attributeGroup>
+
+    <!--MyFlowLayoutSupport-->
+    <xs:attributeGroup name="MyFlowLayoutSupport">
+        <xs:attributeGroup ref="MyLayoutOrientationSupport"/>
+        <xs:attribute name="arrangedCount" type="xs:integer" use="required"/>
+        <xs:attribute name="pagedCount" type="xs:integer" />
+        <xs:attribute name="autoArrange" type="xs:boolean" />
+
+    </xs:attributeGroup>
+
+
+    <xs:attributeGroup name="MyLayoutOrientationSupport">
+        <xs:attribute name="orientation" use="required">
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:enumeration value="Horizontal"/>
+                    <xs:enumeration value="Vertical"/>
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+    </xs:attributeGroup>
+
+
+
+
+
+</xs:schema>
